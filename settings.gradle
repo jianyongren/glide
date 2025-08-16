@@ -152,3 +152,4 @@ dependencyResolutionManagement {
         }
     }
 }
+include ':glide_demo'

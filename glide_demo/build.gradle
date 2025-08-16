@@ -1,0 +1,51 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt' // 添加此行
+}
+
+android {
+    namespace 'me.rjy.android.glide.demo'
+    compileSdkVersion libs.versions.compile.sdk.version.get()
+
+    defaultConfig {
+        applicationId "me.rjy.android.glide.demo"
+        minSdk 24
+        targetSdk libs.versions.target.sdk.version.get() as int
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation project(':library')
+    annotationProcessor project(':annotation:compiler')
+    kapt project(':annotation:compiler') // 添加kapt处理器
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+//    implementation 'com.google.android.material:material:1.12.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
+}
