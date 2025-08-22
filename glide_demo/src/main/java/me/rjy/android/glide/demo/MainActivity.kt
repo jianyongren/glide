@@ -1,5 +1,7 @@
 package me.rjy.android.glide.demo
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -21,6 +23,17 @@ class MainActivity : AppCompatActivity() {
 
         binding.imageView.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        binding.clearCache.setOnClickListener {
+            Log.d(TAG, "glide clearMemory")
+            Glide.get(this@MainActivity).clearMemory()
+            Thread {
+                Log.d(TAG, "glide clearDiskCache")
+                Glide.get(this@MainActivity).clearDiskCache()
+                Thread.sleep(3000)
+                restartApp(this@MainActivity)
+            }.start()
         }
 
         // 使用一个更可靠的测试图片URL
@@ -57,6 +70,17 @@ class MainActivity : AppCompatActivity() {
             })
             .into(binding.imageView)
 
+    }
+
+    fun restartApp(context: Context) {
+        Log.d(TAG, "restartApp")
+        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)?.apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or  // 清除任务栈
+                    Intent.FLAG_ACTIVITY_NEW_TASK      // 创建新任务栈
+        }
+        context.startActivity(intent)
+        (context as? Activity)?.finishAffinity()        // 终止当前进程所有Activity
+        Runtime.getRuntime().exit(0)
     }
 
     companion object {

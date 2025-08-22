@@ -22,7 +22,7 @@ class MyImageView @JvmOverloads constructor(
     override fun setImageDrawable(drawable: Drawable?) {
         if (drawable != null) {
             Log.d(TAG, "setImageDrawable: $drawable")
-            Throwable("[rjy] setImageDrawable").printStackTrace()
+//            Throwable("[rjy] setImageDrawable").printStackTrace()
         }
         super.setImageDrawable(drawable)
     }
